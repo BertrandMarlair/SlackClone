@@ -1,0 +1,1 @@
+export default (parents, args, { models }) => models.Channel.findAll()

@@ -1,0 +1,1 @@
+export default (parent, args, { models }) => models.User.create(args)
