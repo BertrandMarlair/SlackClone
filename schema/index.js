@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 
 const sequelize = new Sequelize('slack', 'postgres', 'postgres', {
     dialect: 'postgres',
+    operatorsAliases: Sequelize.Op,
     define: {
         underscored: true,
     }
@@ -31,12 +32,14 @@ import * as channel from "./models/channel/index";
 import * as message from "./models/message/index";
 import * as user from "./models/user/index";
 import * as team from "./models/team/index";
+import * as commons from "./commons/index";
 
 const structures = [
     channel,
     message,
     user,
     team,
+    commons,
 ]
 
 export const typeDefs = generateTypeDefs(structures);

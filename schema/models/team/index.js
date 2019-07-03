@@ -3,25 +3,32 @@ import Team from "./resolvers/Team";
 export const types = {
     definitions: `
         type Team {
+            id: Int!
+            name: String!
             owner: User!
-            members: [User!] !
-            channel: [Channel!] !
+            members: [User!]!
+            channels: [Channel!]
         }
 
+        type CreateTeamResponse {
+            ok: Boolean!
+            team: Team!
+            errors: [Error!]
+        }
     `,
     resolvers: {
         Team,
     },
 };
 
-import teams from "./resolvers/allTeam";
+import allTeams from "./resolvers/allTeam";
 
 export const queries = {
     definitions: `
-        teams: [Team]
+        allTeams: [Team!]!
     `,
     resolvers: {
-        teams,
+        allTeams,
     },
 };
 
@@ -29,7 +36,7 @@ import createTeam from "./resolvers/addTeam";
 
 export const mutations = {
     definitions: `
-        createTeam(name: String!): Boolean
+        createTeam(name: String!): CreateTeamResponse!
     `,
     resolvers: {
         createTeam,

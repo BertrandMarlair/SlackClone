@@ -1,4 +1,8 @@
-export default (parent, args, { models }) => models.User.findAll().then((response) => {
-    console.log(response)
-    return response
-})
+import { requireAuth } from '../../../../utils/permission'
+
+export default requireAuth.createResolver(
+    (parent, args, { models }) => models.User.findAll()
+    .then((response) => {
+        return response
+    })
+)
