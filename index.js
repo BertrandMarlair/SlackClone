@@ -34,7 +34,7 @@ const createServer = () =>
         }),
         context: ({req}) => ({
             models,
-            user: req.user,
+            user: req && req.user,
             SECRET: process.env.SECRET,
             SECRET2: process.env.SECRET2
         }),

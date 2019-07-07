@@ -5,9 +5,10 @@ export default requireAuth.createResolver(
         models,
         user
     }) => models.Team.findAll({
-        where: {
-            owner: user.id
-        }
+        include: [{
+            model: models.User,
+            where: { id: user.id },
+        }]
     }, {
         raw: true
     })

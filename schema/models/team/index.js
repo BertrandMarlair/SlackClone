@@ -5,14 +5,14 @@ export const types = {
         type Team {
             id: Int!
             name: String!
-            owner: User!
+            owner: Int!
             members: [User!]!
             channels: [Channel!]
         }
 
         type CreateTeamResponse {
             ok: Boolean!
-            team: Team!
+            team: Team
             errors: [Error!]
         }
     `,
@@ -22,24 +22,33 @@ export const types = {
 };
 
 import allTeams from "./resolvers/allTeam";
+import inviteTeams from "./resolvers/inviteTeams";
+import getTeam from "./resolvers/getTeam";
 
 export const queries = {
     definitions: `
         allTeams: [Team!]!
+        inviteTeams: [Team!]!
+        getTeam(id: Int!): Team!
     `,
     resolvers: {
         allTeams,
+        inviteTeams,
+        getTeam,
     },
 };
 
 import createTeam from "./resolvers/addTeam";
+import addTeamMember from "./resolvers/addTeamMember";
 
 export const mutations = {
     definitions: `
         createTeam(name: String!): CreateTeamResponse!
+        addTeamMember(email: String!, teamId: Int!): VoidResponse!
     `,
     resolvers: {
         createTeam,
+        addTeamMember,
     },
 };
 

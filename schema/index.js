@@ -13,6 +13,7 @@ const models = {
     Channel: sequelize.import('./models/channel/sequelize/index'),
     Message: sequelize.import('./models/message/sequelize/index'),
     Team: sequelize.import('./models/team/sequelize/index'),
+    Member: sequelize.import('./models/member/sequelize/index'),
 };
 
 Object.keys(models).forEach((modelName) => {

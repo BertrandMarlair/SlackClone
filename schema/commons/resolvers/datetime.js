@@ -8,15 +8,23 @@
 
 import {DateTime} from "luxon";
 
+const convertDate = (date) => {
+    if (parseInt(date, 10)){
+        return date
+    }else{
+        return new Date(date).getTime()
+    }
+}
+
 export default {
     timestamp(timestamp) {
-        return timestamp;
+        return convertDate(timestamp);
     },
     http(timestamp) {
-        return DateTime.fromMillis(timestamp).toHTTP();
+        return DateTime.fromMillis(convertDate(timestamp)).toHTTP();
     },
     iso(timestamp) {
-        const luxon = DateTime.fromMillis(timestamp);
+        const luxon = DateTime.fromMillis(convertDate(timestamp));
 
         return {
             datetime: luxon.toISO(),
@@ -25,7 +33,7 @@ export default {
         };
     },
     sql(timestamp) {
-        const luxon = DateTime.fromMillis(timestamp);
+        const luxon = DateTime.fromMillis(convertDate(timestamp));
 
         return {
             datetime: luxon.toSQL(),

@@ -1,7 +1,13 @@
 import { requireAuth } from '../../../../utils/permission'
 
 export default requireAuth.createResolver(
-    (parents, args, {
+    (parent, {
+        id
+    }, {
         models
-    }) => models.Channel.findAll()
+    }) => models.Team.findOne({
+        where: {
+            id
+        }
+    })
 )

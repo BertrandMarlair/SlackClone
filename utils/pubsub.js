@@ -1,17 +1,19 @@
-// import {RedisPubSub} from "graphql-redis-subscriptions";
+import {RedisPubSub} from "graphql-redis-subscriptions";
 
-// const pubsub = new RedisPubSub({
-//     connection: {
-//         host: 'redis',
-//         port: '6379',
-//         retry_strategy({attempt}) {
-//             return Math.max(attempt * 100, 3000);
-//         },
-//     },
-// });
+const {REDIS_HOST, REDIS_PORT} = process.env;
 
-// export default pubsub;
+const pubsub = new RedisPubSub({
+    connection: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+        retry_strategy({attempt}) {
+            return Math.max(attempt * 100, 3000);
+        },
+    },
+});
 
-export const generateSubscribtionForEvent = () => ({
-    subscribe: () => 'pubsub.asyncIterator(events)',
+export default pubsub;
+
+export const generateSubscribtionForEvent = (...events) => ({
+    subscribe: () => pubsub.asyncIterator(events),
 });

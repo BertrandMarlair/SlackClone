@@ -9,6 +9,12 @@ export const types = {
             messages: [Message!]!
             users: [User!]!
         }
+
+        type ResponseCreateChannel {
+            ok: Boolean!
+            channel: Channel
+            errors: [Error!]
+        }
     `,
     resolvers: {
         Channel,
@@ -16,13 +22,16 @@ export const types = {
 };
 
 import getChannels from "./resolvers/allChannel";
+import getChannelById from "./resolvers/getChannelById";
 
 export const queries = {
     definitions: `
         getChannels: [Channel]
+        getChannelById(id: Int!, teamId: Int!): Channel!
     `,
     resolvers: {
         getChannels,
+        getChannelById,
     },
 };
 
@@ -30,7 +39,7 @@ import createChannel from "./resolvers/addChannel";
 
 export const mutations = {
     definitions: `
-        createChannel(teamId: Int!, name: String!, public: Boolean=false): Channel
+        createChannel(teamId: Int!, name: String!, public: Boolean = false): ResponseCreateChannel
     `,
     resolvers: {
         createChannel,

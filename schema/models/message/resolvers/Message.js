@@ -1,5 +1,5 @@
-import {arangoElementResolver} from "../../../utils";
-
 export default {
-    ...arangoElementResolver,
-};
+    user: ({ userId }, args, { models }) => {
+        return models.User.findOne({ where: { id: userId } })
+    }
+}

@@ -7,6 +7,7 @@ export const types = {
             text: String!
             user: User!
             channel: Channel!
+            createdAt: DateTime!
         }
 
     `,
@@ -15,14 +16,14 @@ export const types = {
     },
 };
 
-import messages from "./resolvers/allMessage";
+import getMessages from "./resolvers/getMessages";
 
 export const queries = {
     definitions: `
-        messages: [Message]
+        getMessages(channelId: Int!): [Message!]
     `,
     resolvers: {
-        messages,
+        getMessages,
     },
 };
 
@@ -37,22 +38,23 @@ export const mutations = {
     },
 };
 
-import {
-    generateSubscribtionForEvent
-} from "../../../utils/pubsub";
+import {generateSubscribtionForEvent} from "../../../utils/pubsub";
 
 export const MESSAGE_ADDED = "MESSAGE_ADDED";
 export const MESSAGE_EDITED = "MESSAGE_EDITED";
 export const MESSAGE_DELETED = "MESSAGE_DELETED";
 
+import messageAdded from './resolvers/messageAddedSub'
+
 export const subscriptions = {
     definitions: `
-        messageAdded: Message
+        messageAdded(channelId: Int!): Message
         messageEdited: Message
         messageDeleted: ID!
     `,
     resolvers: {
-        messageAdded: generateSubscribtionForEvent(MESSAGE_ADDED),
+        messageAdded,
+        // messageAdded: generateSubscribtionForEvent(MESSAGE_ADDED),
         messageEdited: generateSubscribtionForEvent(MESSAGE_EDITED),
         messageDeleted: generateSubscribtionForEvent(MESSAGE_DELETED),
     },

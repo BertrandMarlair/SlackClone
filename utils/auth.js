@@ -40,9 +40,7 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
     }
 
     const user = await models.User.findOne({
-        where: {
-            id: userId
-        },
+        where: { id: userId },
         raw: true
     });
 
@@ -68,9 +66,7 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
 
 export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
     const user = await models.User.findOne({
-        where: {
-            email
-        },
+        where: { email },
         raw: true
     });
     if (!user) {

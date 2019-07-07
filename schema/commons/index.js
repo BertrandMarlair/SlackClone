@@ -62,6 +62,11 @@ export const types = {
             path: String!
             message: String
         }
+
+        type VoidResponse {
+            ok: Boolean!
+            errors: [Error!]
+        }
     `,
     resolvers: {
         Gender,
