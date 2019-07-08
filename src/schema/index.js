@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 const sequelize = new Sequelize('slack', 'postgres', 'postgres', {
     dialect: 'postgres',
     operatorsAliases: Sequelize.Op,
+    host: process.env.DB_HOST || 'localhost',
     define: {
         underscored: true,
     }
@@ -44,5 +45,4 @@ const structures = [
 ]
 
 export const typeDefs = generateTypeDefs(structures);
-console.log(typeDefs)
 export const resolvers = generateResolvers(structures);
