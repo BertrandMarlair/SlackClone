@@ -1,0 +1,6 @@
+diff a/src/index.js b/src/index.js	(rejected hunks)
+@@ -63,3 +63 @@ getModels().then(models => {
+-                `Server ready. -> start on http://localhost:${
+-                    process.env.PORT
+-                }/`,
++                `Server ready. -> start on http://localhost:${process.env.PORT}/`,

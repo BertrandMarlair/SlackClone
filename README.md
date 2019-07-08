@@ -41,9 +41,9 @@ Then, you can access the following endpoints.
 
 #### GraphQL endpoints
 
-- [localhost](http://localhost:5000) is the **main entrypoint** for the GraphQL API.
-- [localhost/explore](http://localhost:5000/explore) is a GUI GraphQL Client to explore/test the GraphQL API more easily.
-- [localhost/map](http://localhost:5000/map) is a GUI GraphQL Client to see the schemas connections
+- [localhost:5000](http://localhost:5000) is the **main entrypoint** for the GraphQL API.
+- [localhost:5000/explore](http://localhost:5000/explore) is a GUI GraphQL Client to explore/test the GraphQL API more easily.
+- [localhost:5000/map](http://localhost:5000/map) is a GUI GraphQL Client to see the schemas connections
 
 ### Browsing the database
  
@@ -77,7 +77,7 @@ When ending a feature, **avoid merging it directly to develop**. Create a **pull
 
 👤 **Bertrand Marlair**
 
-* Twitter: [@@MarlairB](https://twitter.com/@MarlairB)
+* Twitter: [@MarlairB](https://twitter.com/@MarlairB)
 * Github: [@BertrandMarlair](https://github.com/BertrandMarlair)
 
 ## Show your support
