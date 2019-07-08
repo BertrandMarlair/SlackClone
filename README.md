@@ -12,12 +12,14 @@
 
 ```sh
 npm install
+npm run build
+docker build -t slack .
 ```
 
 ## Usage
 
 ```sh
-npm start
+docker-compose up -d
 ```
 
 ## Run tests
