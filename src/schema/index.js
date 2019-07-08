@@ -1,32 +1,56 @@
 import Sequelize from 'sequelize';
+import log from "../utils/logger";
 
-const sequelize = new Sequelize('slack', 'postgres', 'postgres', {
-    dialect: 'postgres',
-    operatorsAliases: Sequelize.Op,
-    host: process.env.DB_HOST || 'localhost',
-    define: {
-        underscored: true,
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export default async () => {
+    let maxReconnect = 20
+    let connected = false
+    const sequelize = new Sequelize('slack', 'postgres', 'postgres', {
+        dialect: 'postgres',
+        operatorsAliases: Sequelize.Op,
+        host: process.env.DB_HOST || 'localhost',
+        define: {
+            underscored: true,
+        }
+    });
+
+    while (!connected && maxReconnect) {
+        try {
+            await sequelize.authenticate()
+            connected = true
+        } catch(err){
+            log.error('reconnecting in 5 seconds')
+            maxReconnect--
+            await sleep(5000)
+        }
     }
-});
 
-const models = {
-    User: sequelize.import('./models/user/sequelize/index'),
-    Channel: sequelize.import('./models/channel/sequelize/index'),
-    Message: sequelize.import('./models/message/sequelize/index'),
-    Team: sequelize.import('./models/team/sequelize/index'),
-    Member: sequelize.import('./models/member/sequelize/index'),
-};
-
-Object.keys(models).forEach((modelName) => {
-    if ('associate' in models[modelName]) {
-        models[modelName].associate(models);
+    if(!connected){
+        return null
     }
-});
+    
+    const models = {
+        User: sequelize.import('./models/user/sequelize/index'),
+        Channel: sequelize.import('./models/channel/sequelize/index'),
+        Message: sequelize.import('./models/message/sequelize/index'),
+        Team: sequelize.import('./models/team/sequelize/index'),
+        Member: sequelize.import('./models/member/sequelize/index'),
+    };
+    
+    Object.keys(models).forEach((modelName) => {
+        if ('associate' in models[modelName]) {
+            models[modelName].associate(models);
+        }
+    });
+    
+    models.sequelize = sequelize;
+    models.Sequelize = Sequelize;
+    return  models
+}
 
-models.sequelize = sequelize;
-models.Sequelize = Sequelize;
-
-export default models
 
 import {generateTypeDefs, generateResolvers} from "./utils";
 
