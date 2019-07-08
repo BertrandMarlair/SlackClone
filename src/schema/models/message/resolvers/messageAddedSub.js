@@ -1,4 +1,4 @@
-import { withFilter } from "graphql-subscriptions";
+import {withFilter} from "graphql-subscriptions";
 import {MESSAGE_ADDED} from "..";
 import pubsub from "../../../../utils/pubsub";
 
@@ -7,4 +7,4 @@ export default {
         () => pubsub.asyncIterator(MESSAGE_ADDED),
         (payload, args) => payload.channelId === args.channelId,
     ),
-}
+};

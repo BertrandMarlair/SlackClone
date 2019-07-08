@@ -1,5 +1,13 @@
 import Message from "./resolvers/Message";
 
+import getMessages from "./resolvers/getMessages";
+
+import createMessage from "./resolvers/addMessage";
+
+import {generateSubscribtionForEvent} from "../../../utils/pubsub";
+
+import messageAdded from "./resolvers/messageAddedSub";
+
 export const types = {
     definitions: `
         type Message {
@@ -16,8 +24,6 @@ export const types = {
     },
 };
 
-import getMessages from "./resolvers/getMessages";
-
 export const queries = {
     definitions: `
         getMessages(channelId: Int!): [Message!]
@@ -26,8 +32,6 @@ export const queries = {
         getMessages,
     },
 };
-
-import createMessage from "./resolvers/addMessage";
 
 export const mutations = {
     definitions: `
@@ -38,13 +42,9 @@ export const mutations = {
     },
 };
 
-import {generateSubscribtionForEvent} from "../../../utils/pubsub";
-
 export const MESSAGE_ADDED = "MESSAGE_ADDED";
 export const MESSAGE_EDITED = "MESSAGE_EDITED";
 export const MESSAGE_DELETED = "MESSAGE_DELETED";
-
-import messageAdded from './resolvers/messageAddedSub'
 
 export const subscriptions = {
     definitions: `

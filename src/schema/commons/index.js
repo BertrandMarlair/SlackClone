@@ -43,6 +43,7 @@ export const types = {
         type Language {
             code: String!
             name: String!
+            type: String!
         }
 
         type Address {

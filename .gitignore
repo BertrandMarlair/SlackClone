@@ -1,6 +1,6 @@
 node_modules
 logs
-dist
+bin
 pgdata
 .env
-dump.sql
+env

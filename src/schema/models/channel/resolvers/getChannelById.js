@@ -1,15 +1,10 @@
-import { requireAuth } from '../../../../utils/permission'
+import {requireAuth} from "../../../../utils/permission";
 
-export default requireAuth.createResolver(
-    (parents, {
-        id,
-        teamId
-    }, {
-        models
-    }) => models.Channel.findOne({
+export default requireAuth.createResolver((parents, {id, teamId}, {models}) =>
+    models.Channel.findOne({
         where: {
             id,
-            teamId
-        }
-    })
-)
+            teamId,
+        },
+    }),
+);

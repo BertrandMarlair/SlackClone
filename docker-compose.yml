@@ -1,6 +1,30 @@
 version: "3"
 services:
-    db: 
+    node: 
+        build:
+            context: .
+            dockerfile: ./images/node/Dockerfile
+        working_dir: /src/app
+        volumes:
+            - ./package.json:/src/app/package.json
+            - ./bin:/src/app/bin
+        expose:
+            - "5000"
+            - "8080"
+        ports:
+            - "5000:5000"
+            - "8080:8080"
+        networks:
+            - webnet
+        env_file:
+            - ./env/server.env
+        environment:
+            DB_HOST: postgres
+            REDIS_HOST: redis
+            REDIS_POST: 6379
+            PORT: 5000
+        command: "nodemon --inspect=0.0.0.0:8080 --watch bin"
+    postgres: 
         image: postgres
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
@@ -18,19 +42,5 @@ services:
             - webnet
         ports:
             - "6379:6379"
-    web: 
-        image: slack
-        ports:
-            - "5000:5000"
-        networks:
-            - webnet
-        environment:
-            DB_HOST: db
-            REDIS_HOST: redis
-            REDIS_POST: 6379
-            PORT: 5000
-            SECRET: 854917c1396298258e5d59560bf8382c0895e9d5
-            SECRET2: 8SDKqsdkqsdS88qsdqsd6dsqdkq987SQDDBJSD8d
-        command: ["node", "index.js"]
 networks: 
     webnet: 

@@ -1,20 +1,13 @@
-/* becodeorg/graph
- *
- * /src/schema/commons/resolvers/datetime.js - Commons Resolver: DateTime
- *
- * coded by leny@BeCode
- * started at 10/01/2019
- */
-
 import {DateTime} from "luxon";
 
-const convertDate = (date) => {
-    if (parseInt(date, 10)){
-        return date
-    }else{
-        return new Date(date).getTime()
+const convertDate = date => {
+    const newDate = parseInt(date);
+
+    if (newDate) {
+        return newDate;
     }
-}
+    return new Date(newDate).getTime();
+};
 
 export default {
     timestamp(timestamp) {

@@ -1,5 +1,4 @@
 export default {
-    channels: ({id}, args, { models }) => {
-        return models.Channel.findAll({ where: { teamId: id } })
-    }
-}
+    channels: ({id}, args, {models}) =>
+        models.Channel.findAll({where: {teamId: id}}),
+};

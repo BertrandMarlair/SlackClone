@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _graphqlSubscriptions=require("graphql-subscriptions");var _=require("..");var _pubsub=_interopRequireDefault(require("../../../../utils/pubsub"));function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var _default={subscribe:(0,_graphqlSubscriptions.withFilter)(()=>_pubsub.default.asyncIterator(_.MESSAGE_ADDED),(payload,args)=>payload.channelId===args.channelId)};exports.default=_default;
+//# sourceMappingURL=messageAddedSub.js.map

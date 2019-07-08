@@ -1,9 +1,5 @@
 const parseDefinitions = (arr, key) =>
-    arr.map(({
-        [key]: {
-            definitions = ""
-        } = {}
-    }) => definitions).join("\n");
+    arr.map(({[key]: {definitions = ""} = {}}) => definitions).join("\n");
 
 export const generateTypeDefs = models => `
     ${parseDefinitions(models, "types")}
@@ -25,26 +21,21 @@ export const generateResolvers = models => {
     let resolvers = {
         Query: {},
         Mutation: {},
-        Subscription: {}
+        Subscription: {},
     };
-    
+
     models.forEach(
-        ({
-            types = {},
-            queries = {},
-            mutations = {},
-            subscriptions = {}
-        }) => {
+        ({types = {}, queries = {}, mutations = {}, subscriptions = {}}) => {
             if (types.resolvers) {
                 resolvers = {
                     ...resolvers,
-                    ...types.resolvers
+                    ...types.resolvers,
                 };
             }
             if (queries.resolvers) {
                 resolvers.Query = {
                     ...resolvers.Query,
-                    ...queries.resolvers
+                    ...queries.resolvers,
                 };
             }
             if (mutations.resolvers) {
@@ -66,9 +57,7 @@ export const generateResolvers = models => {
 };
 
 export const arangoElementResolver = {
-    id({
-        _key
-    }) {
+    id({_key}) {
         return _key;
     },
 };

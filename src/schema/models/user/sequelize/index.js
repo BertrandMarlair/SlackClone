@@ -1,64 +1,71 @@
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 export default (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
-        username: {
-            type: DataTypes.STRING,
-            unique: true,
-            validate: {
-                isAlphanumeric: {
-                    args: true,
-                    msg: 'The username can only contain lettres ans numbers'
+    const User = sequelize.define(
+        "user",
+        {
+            username: {
+                type: DataTypes.STRING,
+                unique: true,
+                validate: {
+                    isAlphanumeric: {
+                        args: true,
+                        msg:
+                            "The username can only contain lettres ans numbers",
+                    },
+                    len: {
+                        args: [3, 25],
+                        msg:
+                            "The username needs to be between 3 and 25 characters long",
+                    },
                 },
-                len: {
-                    args: [3, 25],
-                    msg: 'The username needs to be between 3 and 25 characters long'
+            },
+            email: {
+                type: DataTypes.STRING,
+                unique: true,
+                validate: {
+                    isEmail: {
+                        args: true,
+                        msg: "Invalid email",
+                    },
                 },
-            }
+            },
+            password: {
+                type: DataTypes.STRING,
+                validate: {
+                    len: {
+                        args: [3, 100],
+                        msg:
+                            "The password needs to be between 3 and 100 characters long",
+                    },
+                },
+            },
         },
-        email: {
-            type: DataTypes.STRING,
-            unique: true,
-            validate: {
-                isEmail: {
-                    args: true,
-                    msg: 'Invalid email'
-                },
-            }
-        },
-        password: {
-            type: DataTypes.STRING,
-            validate: {
-                len: {
-                    args: [3, 100],
-                    msg: 'The password needs to be between 3 and 100 characters long'
-                },
-            }
-        }
-    },{
-        hooks: {
-            afterValidate: async (user) => {
-                const hashedPassword = await bcrypt.hash(user.password, 12)
-                // eslint-disable-next-line require-atomic-updates
-                user.password = hashedPassword
-            }  
-        }
-    });
+        {
+            hooks: {
+                afterValidate: async user => {
+                    const hashedPassword = await bcrypt.hash(user.password, 12);
 
-    User.associate = (models) => {
+                    user.password = hashedPassword;
+                },
+            },
+        },
+    );
+
+    User.associate = models => {
         User.belongsToMany(models.Team, {
-            through: 'member',
+            through: "member",
             foreignKey: {
-                name: 'userId',
-                field: 'user_id',
+                name: "userId",
+                field: "user_id",
             },
         });
-        // N:M
+        // n:M
         User.belongsToMany(models.Channel, {
-            through: 'channel_member',
+            through: "channel_member",
             foreignKey: {
-                name: 'userId',
-                field: 'user_id',
+                name: "userId",
+                field: "user_id",
             },
         });
     };

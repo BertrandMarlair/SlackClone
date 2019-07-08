@@ -1,11 +1,3 @@
-/* becodeorg/graph
- *
- * /src/schema/commons/resolvers/timestamp.js - Commons Resolver: Timestamp Scalar
- *
- * coded by leny@BeCode
- * started at 04/01/2019
- */
-
 import {GraphQLScalarType} from "graphql";
 
 export default new GraphQLScalarType({

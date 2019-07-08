@@ -1,5 +1,14 @@
 import Team from "./resolvers/Team";
 
+import allTeams from "./resolvers/allTeam";
+import inviteTeams from "./resolvers/inviteTeams";
+import getTeam from "./resolvers/getTeam";
+
+import createTeam from "./resolvers/addTeam";
+import addTeamMember from "./resolvers/addTeamMember";
+
+import {generateSubscribtionForEvent} from "../../../utils/pubsub";
+
 export const types = {
     definitions: `
         type Team {
@@ -21,10 +30,6 @@ export const types = {
     },
 };
 
-import allTeams from "./resolvers/allTeam";
-import inviteTeams from "./resolvers/inviteTeams";
-import getTeam from "./resolvers/getTeam";
-
 export const queries = {
     definitions: `
         allTeams: [Team!]!
@@ -38,9 +43,6 @@ export const queries = {
     },
 };
 
-import createTeam from "./resolvers/addTeam";
-import addTeamMember from "./resolvers/addTeamMember";
-
 export const mutations = {
     definitions: `
         createTeam(name: String!): CreateTeamResponse!
@@ -51,10 +53,6 @@ export const mutations = {
         addTeamMember,
     },
 };
-
-import {
-    generateSubscribtionForEvent
-} from "../../../utils/pubsub";
 
 export const TEAM_ADDED = "TEAM_ADDED";
 export const TEAM_EDITED = "TEAM_EDITED";

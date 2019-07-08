@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _permission=require("../../../../utils/permission");var _default=_permission.requireAuth.createResolver((parents,args,{models})=>models.Channel.findAll());exports.default=_default;
+//# sourceMappingURL=allChannel.js.map

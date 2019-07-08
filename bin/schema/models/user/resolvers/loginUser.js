@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _auth=require("../../../../utils/auth");var _default=async(parent,{email,password},{models,SECRET,SECRET2})=>(0,_auth.tryLogin)(email,password,models,SECRET,SECRET2);exports.default=_default;
+//# sourceMappingURL=loginUser.js.map

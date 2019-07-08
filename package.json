@@ -2,11 +2,11 @@
   "name": "slack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./bin/index.js",
   "scripts": {
-    "serve": "node dist/index.js",
-    "start": "nodemon --exec babel-node src/index.js",
-    "build": "babel src -d dist",
+    "start": "node .",
+    "work": "npx babel src -s --watch --verbose --out-dir bin",
+    "build": "npx babel src --out-dir bin",
     "test": "echo \"Error: no test specified\" && exit 1",
     "psql": "psql -h localhost -p 5001 -U postgres slack"
   },
@@ -18,9 +18,16 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "dotenv": "^8.0.0",
-    "eslint": "^6.0.0"
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^3.0.0"
   },
   "dependencies": {
     "apollo-server-express": "^2.6.4",
@@ -36,9 +43,19 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "luxon": "^1.16.0",
-    "merge-graphql-schemas": "^1.5.8",
     "pg": "^7.11.0",
     "sequelize": "^5.8.12",
     "winston": "^3.2.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npx eslint --fix --cache",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
   }
 }

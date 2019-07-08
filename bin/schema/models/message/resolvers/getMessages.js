@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _permission=require("../../../../utils/permission");var _default=_permission.requireAuth.createResolver((parent,args,{models})=>models.Message.findAll({where:{channelId:args.channelId},order:[['created_at','DESC']]}));exports.default=_default;
+//# sourceMappingURL=getMessages.js.map

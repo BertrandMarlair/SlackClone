@@ -1,11 +1,3 @@
-/* becodeorg/graph
- *
- * /src/schema/commons/resolvers/hour.js - Commons Resolver: Hour Scalar
- *
- * coded by leny@BeCode
- * started at 09/01/2019
- */
-
 import {GraphQLScalarType} from "graphql";
 
 const HOUR_MATCHER = /^[0-2][0-9]:[0-5][0-9]$/i;

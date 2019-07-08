@@ -1,5 +1,12 @@
 import Channel from "./resolvers/Channel";
 
+import getChannels from "./resolvers/allChannel";
+import getChannelById from "./resolvers/getChannelById";
+
+import createChannel from "./resolvers/addChannel";
+
+import {generateSubscribtionForEvent} from "../../../utils/pubsub";
+
 export const types = {
     definitions: `
         type Channel {
@@ -21,9 +28,6 @@ export const types = {
     },
 };
 
-import getChannels from "./resolvers/allChannel";
-import getChannelById from "./resolvers/getChannelById";
-
 export const queries = {
     definitions: `
         getChannels: [Channel]
@@ -35,8 +39,6 @@ export const queries = {
     },
 };
 
-import createChannel from "./resolvers/addChannel";
-
 export const mutations = {
     definitions: `
         createChannel(teamId: Int!, name: String!, public: Boolean = false): ResponseCreateChannel
@@ -45,10 +47,6 @@ export const mutations = {
         createChannel,
     },
 };
-
-import {
-    generateSubscribtionForEvent
-} from "../../../utils/pubsub";
 
 export const CHANNEL_ADDED = "CHANNEL_ADDED";
 export const CHANNEL_EDITED = "CHANNEL_EDITED";

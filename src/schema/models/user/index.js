@@ -1,5 +1,13 @@
 import User from "./resolvers/User";
 
+import getUser from "./resolvers/getUser";
+import allUsers from "./resolvers/allUsers";
+
+import register from "./resolvers/registerUser";
+import login from "./resolvers/loginUser";
+
+import {generateSubscribtionForEvent} from "../../../utils/pubsub";
+
 export const types = {
     definitions: `
         type User {
@@ -28,9 +36,6 @@ export const types = {
     },
 };
 
-import getUser from "./resolvers/getUser";
-import allUsers from "./resolvers/allUsers";
-
 export const queries = {
     definitions: `
         getUser(id: Int!): User!
@@ -42,9 +47,6 @@ export const queries = {
     },
 };
 
-import register from "./resolvers/registerUser";
-import login from "./resolvers/loginUser";
-
 export const mutations = {
     definitions: `
         register(username: String!, email: String!, password: String!): RegisterResponse!
@@ -55,10 +57,6 @@ export const mutations = {
         login,
     },
 };
-
-import {
-    generateSubscribtionForEvent
-} from "../../../utils/pubsub";
 
 export const USER_ADDED = "USER_ADDED";
 export const USER_EDITED = "USER_EDITED";

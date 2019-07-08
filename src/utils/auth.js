@@ -1,35 +1,45 @@
-import jwt from 'jsonwebtoken';
-import _ from 'lodash';
-import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+import _ from "lodash";
+import bcrypt from "bcrypt";
 
 export const createTokens = async (user, secret, secret2) => {
-    const createToken = jwt.sign({
-            user: _.pick(user, ['id', 'isAdmin', 'username']),
+    const createToken = jwt.sign(
+        {
+            user: _.pick(user, ["id", "isAdmin", "username"]),
         },
-        secret, {
-            expiresIn: '1h',
-        },
-    );
-
-    const createRefreshToken = jwt.sign({
-            user: _.pick(user, 'id'),
-        },
-        secret2, {
-            expiresIn: '7d',
+        secret,
+        {
+            expiresIn: "1h",
         },
     );
 
-    return [createToken, createRefreshToken]
+    const createRefreshToken = jwt.sign(
+        {
+            user: _.pick(user, "id"),
+        },
+        secret2,
+        {
+            expiresIn: "7d",
+        },
+    );
+
+    return [createToken, createRefreshToken];
 };
 
-export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2) => {
+export const refreshTokens = async (
+    token,
+    refreshToken,
+    models,
+    SECRET,
+    SECRET2,
+) => {
     let userId = 0;
+
     try {
         const {
-            user: {
-                id
-            }
+            user: {id},
         } = jwt.decode(refreshToken);
+
         userId = id;
     } catch (err) {
         return {};
@@ -40,23 +50,29 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
     }
 
     const user = await models.User.findOne({
-        where: { id: userId },
-        raw: true
+        where: {id: userId},
+        raw: true,
     });
 
     if (!user) {
         return {};
     }
 
-    const refreshSecret = `${user.password}${SECRET2}`
+    const refreshSecret = `${user.password}${SECRET2}`;
     const refreshTokenWithoutBearer = refreshToken.replace("Bearer ", "");
+
     try {
         jwt.verify(refreshTokenWithoutBearer, refreshSecret);
     } catch (err) {
         return {};
     }
 
-    const [newToken, newRefreshToken] = await createTokens(user, SECRET, refreshSecret);
+    const [newToken, newRefreshToken] = await createTokens(
+        user,
+        SECRET,
+        refreshSecret,
+    );
+
     return {
         token: newToken,
         refreshToken: newRefreshToken,
@@ -66,35 +82,45 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
 
 export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
     const user = await models.User.findOne({
-        where: { email },
-        raw: true
+        where: {email},
+        raw: true,
     });
+
     if (!user) {
         // user with provided email not found
         return {
             ok: false,
-            errors: [{
-                path: 'email',
-                message: 'Wrong email'
-            }]
-        }
+            errors: [
+                {
+                    path: "email",
+                    message: "Wrong email",
+                },
+            ],
+        };
     }
 
     const valid = await bcrypt.compare(password, user.password);
+
     if (!valid) {
         // bad password
         return {
             ok: false,
-            errors: [{
-                path: 'password',
-                message: 'Wrong password'
-            }]
-        }
+            errors: [
+                {
+                    path: "password",
+                    message: "Wrong password",
+                },
+            ],
+        };
     }
 
-    const refreshTokenSecret = user.password + SECRET2
+    const refreshTokenSecret = user.password + SECRET2;
 
-    const [token, refreshToken] = await createTokens(user, SECRET, refreshTokenSecret);
+    const [token, refreshToken] = await createTokens(
+        user,
+        SECRET,
+        refreshTokenSecret,
+    );
 
     return {
         ok: true,
