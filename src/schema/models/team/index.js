@@ -1,6 +1,7 @@
 import Team from "./resolvers/Team";
 
 import getTeam from "./resolvers/getTeam";
+import getTeamMembers from "./resolvers/getTeamMembers";
 
 import createTeam from "./resolvers/addTeam";
 import addTeamMember from "./resolvers/addTeamMember";
@@ -31,9 +32,11 @@ export const types = {
 export const queries = {
     definitions: `
         getTeam(id: Int!): Team!
+        getTeamMembers(teamId: Int!): [User!]
     `,
     resolvers: {
         getTeam,
+        getTeamMembers,
     },
 };
 
