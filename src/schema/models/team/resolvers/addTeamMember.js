@@ -5,20 +5,20 @@ import {requireAuth} from "../../../../utils/permission";
 export default requireAuth.createResolver(
     async (parent, {email, teamId}, {models, user}) => {
         try {
-            const teamPromise = models.Team.findOne(
-                {where: {id: teamId}},
+            const memberPromise = models.Member.findOne(
+                {where: {teamId, userId: user.id}},
                 {raw: true},
             );
             const userToAddPromise = models.User.findOne(
                 {where: {email}},
                 {raw: true},
             );
-            const [team, userToAdd] = await Promise.all([
-                teamPromise,
+            const [member, userToAdd] = await Promise.all([
+                memberPromise,
                 userToAddPromise,
             ]);
 
-            if (team.owner !== user.id) {
+            if (!member.admin) {
                 return {
                     ok: false,
                     errors: [

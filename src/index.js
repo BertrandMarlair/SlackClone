@@ -9,6 +9,7 @@ import {ApolloServer} from "apollo-server-express";
 import {makeExecutableSchema} from "graphql-tools";
 import {typeDefs, resolvers} from "./schema/index";
 import getUser from "./utils/getUser";
+import getUserSubscription from "./utils/getUserSubscription";
 import "dotenv/config";
 
 const app = express();
@@ -48,10 +49,23 @@ getModels().then(models => {
                 SECRET: process.env.SECRET,
                 SECRET2: process.env.SECRET2,
             }),
+            subscriptions: {
+                onConnect: connectionParams => {
+                    const {token, refreshToken} = connectionParams;
+
+                    if (token && refreshToken) {
+                        return getUserSubscription(token, refreshToken, models);
+                    }
+
+                    return {models};
+                },
+                // onDisconnect: webSocket => {
+
+                // },
+            },
         });
 
     createServer(true, true).applyMiddleware({app, path: "/explore"});
-
     models.sequelize.sync({force: false}).then(() => {
         const endpoint = createServer();
 

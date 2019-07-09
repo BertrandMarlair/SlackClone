@@ -6,15 +6,17 @@ export default requireAuth.createResolver(
     async (parent, args, {models, user}) => {
         try {
             const response = await models.sequelize.transaction(async () => {
-                const team = await models.Team.create({
-                    ...args,
-                    owner: user.id,
-                });
+                const team = await models.Team.create({...args});
 
                 await models.Channel.create({
                     name: "general",
                     public: true,
                     teamId: team.id,
+                });
+                await models.Member.create({
+                    teamId: team.id,
+                    userId: user.id,
+                    admin: true,
                 });
                 return team;
             });

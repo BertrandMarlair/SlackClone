@@ -1,7 +1,5 @@
 import Team from "./resolvers/Team";
 
-import allTeams from "./resolvers/allTeam";
-import inviteTeams from "./resolvers/inviteTeams";
 import getTeam from "./resolvers/getTeam";
 
 import createTeam from "./resolvers/addTeam";
@@ -14,9 +12,9 @@ export const types = {
         type Team {
             id: Int!
             name: String!
-            owner: Int!
             members: [User!]!
             channels: [Channel!]
+            admin: Boolean!
         }
 
         type CreateTeamResponse {
@@ -32,13 +30,9 @@ export const types = {
 
 export const queries = {
     definitions: `
-        allTeams: [Team!]!
-        inviteTeams: [Team!]!
         getTeam(id: Int!): Team!
     `,
     resolvers: {
-        allTeams,
-        inviteTeams,
         getTeam,
     },
 };

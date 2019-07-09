@@ -1,12 +1,12 @@
 import {DateTime} from "luxon";
 
 const convertDate = date => {
-    const newDate = parseInt(date);
+    const timestamp = parseInt(date);
 
-    if (newDate) {
-        return newDate;
+    if (isNaN(timestamp)) {
+        return new Date(date).getTime();
     }
-    return new Date(newDate).getTime();
+    return timestamp;
 };
 
 export default {

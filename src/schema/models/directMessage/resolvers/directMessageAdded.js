@@ -1,11 +1,11 @@
 import {withFilter} from "graphql-subscriptions";
-import {MESSAGE_ADDED} from "..";
+import {DIRECT_MESSAGE_ADDED} from "..";
 import pubsub from "../../../../utils/pubsub";
 // import {requireAuth} from "../../../../utils/permission";
 
 export default {
     subscribe: withFilter(
-        () => pubsub.asyncIterator(MESSAGE_ADDED),
+        () => pubsub.asyncIterator(DIRECT_MESSAGE_ADDED),
         (payload, args) => payload.channelId === args.channelId,
     ),
 };

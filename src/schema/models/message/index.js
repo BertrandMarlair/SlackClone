@@ -54,7 +54,6 @@ export const subscriptions = {
     `,
     resolvers: {
         messageAdded,
-        // messageAdded: generateSubscribtionForEvent(MESSAGE_ADDED),
         messageEdited: generateSubscribtionForEvent(MESSAGE_EDITED),
         messageDeleted: generateSubscribtionForEvent(MESSAGE_DELETED),
     },

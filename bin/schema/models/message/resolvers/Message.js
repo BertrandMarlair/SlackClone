@@ -1,2 +1,2 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _default={user:({userId},args,{models})=>{return models.User.findOne({where:{id:userId}});}};exports.default=_default;
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _default={user:({userId},args,{models})=>models.User.findOne({where:{id:userId}})};exports.default=_default;
 //# sourceMappingURL=Message.js.map
