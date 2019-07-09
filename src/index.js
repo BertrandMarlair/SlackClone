@@ -43,12 +43,24 @@ getModels().then(models => {
                 resolvers,
                 // schemaDirectives,
             }),
-            context: ({req}) => ({
-                models,
-                user: req && req.user,
-                SECRET: process.env.SECRET,
-                SECRET2: process.env.SECRET2,
-            }),
+            context: async ({req, connection}) => {
+                if (connection) {
+                    // check connection for metadata
+                    return {
+                        models: connection.context.models,
+                        SECRET: process.env.SECRET,
+                        SECRET2: process.env.SECRET2,
+                        user: req ? req.user : connection.context.user,
+                    };
+                }
+
+                return {
+                    models,
+                    SECRET: process.env.SECRET,
+                    SECRET2: process.env.SECRET2,
+                    user: req && req.user,
+                };
+            },
             subscriptions: {
                 onConnect: connectionParams => {
                     const {token, refreshToken} = connectionParams;

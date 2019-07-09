@@ -24,7 +24,7 @@ export const types = {
 
 export const queries = {
     definitions: `
-        getDirectMessage: [DirectMessage!]
+        getDirectMessage(teamId: !Int, ortherUser: Int!): [DirectMessage!] !
     `,
     resolvers: {
         getDirectMessage,
@@ -33,7 +33,7 @@ export const queries = {
 
 export const mutations = {
     definitions: `
-        createDirectMessage(receiverId: Int!, text: String!): Boolean!
+        createDirectMessage(receiverId: Int!, text: String!): Boolean! 
     `,
     resolvers: {
         createDirectMessage,
