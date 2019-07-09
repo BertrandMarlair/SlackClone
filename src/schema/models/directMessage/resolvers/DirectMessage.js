@@ -1,8 +1,8 @@
 export default {
-    sender: ({user, userId}, args, {models}) => {
-        if (user) {
-            return user;
+    sender: ({sender, senderId}, args, {models}) => {
+        if (sender) {
+            return sender;
         }
-        return models.User.findOne({where: {id: userId}});
+        return models.User.findOne({where: {id: senderId}});
     },
 };

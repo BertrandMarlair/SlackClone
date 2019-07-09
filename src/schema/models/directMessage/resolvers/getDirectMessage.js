@@ -1,28 +1,22 @@
-// import {requireAuth} from "../../../../utils/permission";
+import {requireAuth} from "../../../../utils/permission";
 
-// export default requireAuth.createResolver(
-//     (parent, {teamid, ortherUser}, {models}) => {
-//         return models.DirectMessage.findAll({
-//             where: {
-//                 teamid,
-//                 [$or]: [
-//                     {
-//                         [$and]: [
-//                             {sendId: ortherUser},
-//                             {receiverId: userInfo.id},
-//                         ],
-//                     },
-//                     {
-//                         [$and]: [
-//                             {sendId: userInfo.id},
-//                             {receiverId: ortherUser},
-//                         ],
-//                     },
-//                 ],
-//             },
-//             order: [["created_at", "DESC"]],
-//         });
-//     },
-// );
+export default requireAuth.createResolver(
+    (parent, {teamId, ortherUser}, {models, user}) => {
+        const {or, and} = models.Sequelize.Op;
 
-export default (parent, args, {models}) => models.DirectMessage.findAll({});
+        return models.DirectMessage.findAll({
+            where: {
+                teamId,
+                [or]: [
+                    {
+                        [and]: [{senderId: ortherUser}, {receiverId: user.id}],
+                    },
+                    {
+                        [and]: [{senderId: user.id}, {receiverId: ortherUser}],
+                    },
+                ],
+            },
+            order: [["created_at", "DESC"]],
+        });
+    },
+);
