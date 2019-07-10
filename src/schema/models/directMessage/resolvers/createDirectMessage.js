@@ -6,28 +6,24 @@ import pubsub from "../../../../utils/pubsub";
 export default requireAuth.createResolver(
     async (parent, args, {models, user}) => {
         try {
-            console.log(args)
-            await models.DirectMessage.create({
+            const directMessage = await models.DirectMessage.create({
                 ...args,
                 senderId: user.id,
             });
-            // const asyncFunc = async () => {
-            //     const currentUser = await models.User.findOne({
-            //         where: {
-            //             id: user.id,
-            //         },
-            //     });
 
-            //     pubsub.publish(DIRECT_MESSAGE_ADDED, {
-            //         sender: args.receiver,
-            //         directMessageAdded: {
-            //             ...directMessage.dataValues,
-            //             user: currentUser.dataValues,
-            //         },
-            //     });
-            // };
+            pubsub.publish(DIRECT_MESSAGE_ADDED, {
+                teamId: args.teamId,
+                senderId: user.id,
+                receiverId: args.receiverId,
+                directMessageAdded: {
+                    ...directMessage.dataValues,
+                    sender: {
+                        id: user.id,
+                        username: user.username,
+                    },
+                },
+            });
 
-            // asyncFunc();
             return true;
         } catch (err) {
             log.error(err);

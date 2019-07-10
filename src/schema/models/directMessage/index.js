@@ -44,7 +44,7 @@ export const DIRECT_MESSAGE_ADDED = "DIRECT_MESSAGE_ADDED";
 
 export const subscriptions = {
     definitions: `
-        directMessageAdded(receiver: Int!): Message
+        directMessageAdded(teamId: Int!, userId: Int!): DirectMessage!
     `,
     resolvers: {
         directMessageAdded,
