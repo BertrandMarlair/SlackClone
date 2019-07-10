@@ -1,2 +1,2 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _permission=require("../../../../utils/permission");var _default=_permission.requireAuth.createResolver((parent,args,{models,user})=>models.User.findOne({where:{id:user.id}}).then(response=>({id:1,username:response.username})));exports.default=_default;
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.default=void 0;var _permission=require("../../../../utils/permission");var _default=_permission.requireAuth.createResolver((parent,{id},{models})=>models.User.findOne({where:{id}}).then(response=>({id:1,username:response.username})));exports.default=_default;
 //# sourceMappingURL=getUser.js.map

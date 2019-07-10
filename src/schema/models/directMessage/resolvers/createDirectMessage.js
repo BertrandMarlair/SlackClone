@@ -6,6 +6,7 @@ import pubsub from "../../../../utils/pubsub";
 export default requireAuth.createResolver(
     async (parent, args, {models, user}) => {
         try {
+            console.log(args)
             await models.DirectMessage.create({
                 ...args,
                 senderId: user.id,

@@ -1,6 +1,7 @@
 import User from "./resolvers/User";
 
 import getCurrentUser from "./resolvers/getCurrentUser";
+import getUser from "./resolvers/getUser";
 import allUsers from "./resolvers/allUsers";
 
 import register from "./resolvers/registerUser";
@@ -39,10 +40,12 @@ export const types = {
 export const queries = {
     definitions: `
         getCurrentUser: User!
+        getUser(id: Int!): User!
         allUsers: [User!]
     `,
     resolvers: {
         getCurrentUser,
+        getUser,
         allUsers,
     },
 };

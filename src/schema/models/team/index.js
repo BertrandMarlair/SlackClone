@@ -13,7 +13,7 @@ export const types = {
         type Team {
             id: Int!
             name: String!
-            members: [User!]!
+            directMessageMembers: [User!]!
             channels: [Channel!]
             admin: Boolean!
         }
