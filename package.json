@@ -7,7 +7,7 @@
     "start": "node .",
     "work": "npx babel src -s --watch --verbose --out-dir bin",
     "build": "npx babel src --out-dir bin",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "psql": "psql -h localhost -p 5001 -U postgres slack"
   },
   "keywords": [],
@@ -34,6 +34,7 @@
   "dependencies": {
     "apollo-server-express": "^2.6.7",
     "axios": "^0.19.0",
+    "babel-jest": "^24.8.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
@@ -42,6 +43,7 @@
     "graphql-redis-subscriptions": "^2.1.0",
     "graphql-tools": "^4.0.5",
     "graphql-voyager": "^1.0.0-rc.27",
+    "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "luxon": "^1.16.1",
@@ -57,7 +59,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "npx lint-staged && npm run test"
     }
   }
 }

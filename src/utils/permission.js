@@ -1,3 +1,8 @@
+import requireAuthResolver from "./permissionResolver/requireAuth";
+import requireTeamAccessResolver from "./permissionResolver/requireDirectMessageAccess";
+import requireDirectMessageAccessResolver from "./permissionResolver/requireDirectMessageAccess";
+import requireAdminResolver from "./permissionResolver/requireAdmin";
+
 const createResolver = resolver => {
     const baseResolver = resolver;
 
@@ -12,59 +17,9 @@ const createResolver = resolver => {
     return baseResolver;
 };
 
-export const requireAuth = createResolver((parent, args, {user}) => {
-    if (!user || !user.id) {
-        throw new Error("Not authenticated");
-    }
-});
-
-export const requireTeamAccess = createResolver(
-    async (parent, {channelId}, {user, models}) => {
-        if (!user || !user.id) {
-            throw new Error("Not authenticated");
-        }
-        const channel = await models.Channel.findOne({
-            where: {id: channelId},
-        });
-        const member = await models.Member.findOne({
-            where: {teamId: channel.teamId, userId: user.id},
-        });
-
-        if (!member) {
-            throw new Error(
-                "You have to be a memeber to the team for get the messages",
-            );
-        }
-    },
-);
-
+export const requireAuth = createResolver(requireAuthResolver);
+export const requireTeamAccess = createResolver(requireTeamAccessResolver);
 export const requireDirectMessageAccess = createResolver(
-    async (parent, {teamId, userId}, {user, models}) => {
-        if (!user || !user.id) {
-            throw new Error("Not authenticated");
-        }
-
-        const {or} = models.Sequelize.Op;
-
-        const members = await models.Member.findAll({
-            where: {
-                teamId,
-                [or]: [{userId: user.id}, {userId}],
-            },
-        });
-
-        if (members.length !== 2) {
-            throw new Error(
-                "You have to be a memeber to the team for get the messages",
-            );
-        }
-    },
+    requireDirectMessageAccessResolver,
 );
-
-export const requireAdmin = requireAuth.createResolver(
-    (parent, args, {user}) => {
-        if (!user.isAdmin) {
-            throw new Error("Requires admin access");
-        }
-    },
-);
+export const requireAdmin = requireAuth.createResolver(requireAdminResolver);
