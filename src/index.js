@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 
 app.use(
     "/map",
-    voyagerMiddleware({endpointUrl: `http://localhost:${process.env.PORT}/`}),
+    voyagerMiddleware({endpointUrl: `${process.env.URL}:${process.env.PORT}/`}),
 );
 app.use(bodyParser.text({type: "application/graphql"}));
 
@@ -86,7 +86,7 @@ getModels().then(models => {
 
         httpServer.listen(process.env.PORT, () =>
             log.info(
-                `Server ready. -> start on http://localhost:${process.env.PORT}/`,
+                `Server ready. -> start on ${process.env.URL}:${process.env.PORT}/`,
             ),
         );
     });
